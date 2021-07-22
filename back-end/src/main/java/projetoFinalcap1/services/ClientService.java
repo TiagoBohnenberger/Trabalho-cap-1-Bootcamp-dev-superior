@@ -10,6 +10,7 @@ import projetoFinalcap1.entities.Client;
 import projetoFinalcap1.repository.ClientRepository;
 import projetoFinalcap1.services.exceptions.ResourceNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,34 @@ public class ClientService {
     public ClientDTO findById(Long id) {
 
         Optional<Client> entity = clientRepository.findById(id);
-        Client client = entity.orElseThrow(() -> new ResourceNotFoundException("Id " + id + " inexistente no banco de dados"));
+        Client client = entity.orElseThrow(() -> new ResourceNotFoundException("Id " + id + " inexistente para atualização no banco de dados"));
         return new ClientDTO(client);
+    }
+
+    @Transactional
+    public ClientDTO insert(ClientDTO dto) {
+        Client entity = new Client();
+        entity.setName(dto.getName());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setIncome(dto.getIncome());
+        entity.setChildren(dto.getChildren());
+        entity.setCpf(dto.getCpf());
+        entity = clientRepository.save(entity);
+        return new ClientDTO(entity);
+    }
+
+    @Transactional
+    public ClientDTO update(ClientDTO dto, Long id) {
+        try {
+            Client entity = clientRepository.getOne(id);
+            entity.setName(dto.getName());
+            entity.setBirthDate(dto.getBirthDate());
+            entity.setIncome(dto.getIncome());
+            entity.setChildren(dto.getChildren());
+            entity = clientRepository.save(entity);
+            return new ClientDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id " + id + " inexistente no banco de dados!");
+        }
     }
 }
