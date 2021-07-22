@@ -1,6 +1,8 @@
 package projetoFinalcap1.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import projetoFinalcap1.dto.ClientDTO;
 import projetoFinalcap1.entities.Client;
 import projetoFinalcap1.repository.ClientRepository;
+import projetoFinalcap1.services.exceptions.DatabaseException;
 import projetoFinalcap1.services.exceptions.ResourceNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
@@ -57,6 +60,14 @@ public class ClientService {
             entity = clientRepository.save(entity);
             return new ClientDTO(entity);
         } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id " + id + " inexistente no banco de dados!");
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            clientRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id " + id + " inexistente no banco de dados!");
         }
     }

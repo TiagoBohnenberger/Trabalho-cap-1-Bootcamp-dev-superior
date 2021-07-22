@@ -12,7 +12,7 @@
 	<artifactId>projetoFinal-cap-1_CRUD</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>projetoFinal-cap-1_CRUD</name>
-	<description>Projeto de findal Cap. 1 Bootcamp DevSuperior: web services REST com CRUD completo para acesso a recursos de clientes.</description>
+	<description>Projeto final Cap. 1 Bootcamp DevSuperior: web services REST com CRUD completo para acesso a recursos de clientes.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

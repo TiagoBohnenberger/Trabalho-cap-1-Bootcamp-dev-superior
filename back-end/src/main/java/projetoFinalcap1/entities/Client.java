@@ -110,11 +110,11 @@ public class Client implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Client)) return false;
         Client client = (Client) o;
-        return getId().equals(client.getId()) && Objects.equals(getCpf(), client.getCpf());
+        return getId().equals(client.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCpf());
+        return Objects.hash(getId());
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import projetoFinalcap1.services.exceptions.DatabaseException;
 import projetoFinalcap1.services.exceptions.ResourceNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +17,14 @@ public class ResourceExceptionsHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError standardError = new StandardError();
+        HttpStatus status = HttpStatus.NOT_FOUND;
 
-        standardError.setTimestamp(Instant.now());
         standardError.setStatusCode(status.value());
+        standardError.setTimestamp(Instant.now());
         standardError.setError(RESOURCE_ERROR_MESSAGE);
         standardError.setMessage(e.getMessage());
         standardError.setPath(request.getRequestURI());
-
         return ResponseEntity.status(status).body(standardError);
     }
 }
